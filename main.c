@@ -4,7 +4,7 @@
 
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 1000
-//test commits
+
 #define MAX_ARRAY_SIZE 10
 #define MIN_ARRAY_SIZE 1
 #define ELEMENT_WIDTH 60
@@ -161,13 +161,13 @@ int main(void) {
 if (i < arraySize - 1) {
     Vector2 startTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + 10};
     Vector2 endTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + 10};
-    DrawLineEx(startTop, endTop, 2, RED);  // Change top arrow color to RED
+    DrawLineEx(startTop, endTop, 2, RED);
     DrawTriangle(endTop, (Vector2){endTop.x - 5, endTop.y - 5}, (Vector2){endTop.x - 5, endTop.y + 5}, RED);
 
     Vector2 startBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + ELEMENT_HEIGHT - 10};
     Vector2 endBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + ELEMENT_HEIGHT - 10};
-    DrawLineEx(startBottom, endBottom, 2, BLUE);  // Change bottom arrow color to BLUE
-    
+    DrawLineEx(startBottom, endBottom, 2, BLUE);
+    DrawTriangle(startBottom, (Vector2){startBottom.x + 5, startBottom.y + 5}, (Vector2){startBottom.x + 5, startBottom.y - 5}, BLUE);
 }
             // Draw rectangles
             if (i == maxElementIndex) {
@@ -239,15 +239,63 @@ void shuffleArray(int array[], int size) {
         array[j] = temp;
     }
 }
-// Bubble Sort algorithm
+// Function to swap two elements in the array
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Bubble Sort algorithm with step-by-step display
 void bubbleSort(int array[], int size) {
+    float startTime = GetTime();
+    float delay = 1.0f;  // Set a larger delay for a slower animation
+
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (array[j] > array[j + 1]) {
                 // Swap elements if they are in the wrong order
-                int temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+                swap(&array[j], &array[j + 1]);
+
+                // Display the array after each swap
+                BeginDrawing();
+                ClearBackground(RAYWHITE);
+
+                // Draw arrows and the array after each swap
+                float arrayPosX = (float)(SCREEN_WIDTH - (size * (ELEMENT_WIDTH + ELEMENT_SPACING) - ELEMENT_SPACING)) / 2;
+                float arrayPosY = (float)SCREEN_HEIGHT / 2 - ELEMENT_HEIGHT / 2;
+
+                for (int k = 0; k < size; k++) {
+                    // Draw arrows (lines connecting the top and bottom of rectangles)
+                    if (k < size - 1) {
+                        Vector2 startTop = {(float)(arrayPosX + (k + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + 10};
+                        Vector2 endTop = {(float)(arrayPosX + (k + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + 10};
+                        DrawLineEx(startTop, endTop, 2, RED);
+                        DrawTriangle(endTop, (Vector2){endTop.x - 5, endTop.y - 5}, (Vector2){endTop.x - 5, endTop.y + 5}, RED);
+
+                        Vector2 startBottom = {(float)(arrayPosX + (k + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + ELEMENT_HEIGHT - 10};
+                        Vector2 endBottom = {(float)(arrayPosX + (k + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + ELEMENT_HEIGHT - 10};
+                        DrawLineEx(startBottom, endBottom, 2, BLUE);
+                        DrawTriangle(startBottom, (Vector2){startBottom.x + 5, startBottom.y + 5}, (Vector2){startBottom.x + 5, startBottom.y - 5}, BLUE);
+                    }
+
+                    // Draw rectangles
+                    if (k == j || k == j + 1) {
+                        // Flash swapped elements with a different color
+                        DrawRectangle(arrayPosX + k * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, ORANGE);
+                    } else {
+                        DrawRectangle(arrayPosX + k * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, DARKGRAY);
+                    }
+                    DrawText(TextFormat("%d", array[k]), arrayPosX + k * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING + 10, arrayPosY + 10, 20, WHITE);
+                }
+
+                EndDrawing();
+
+                // Wait until the specified delay has passed
+                while (GetTime() - startTime < delay) { /* Do nothing */ }
+
+                // Reset the timer for the next delay
+                startTime = GetTime();
             }
         }
     }
