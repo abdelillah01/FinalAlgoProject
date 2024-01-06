@@ -4,7 +4,7 @@
 
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 1000
-
+//test commits
 #define MAX_ARRAY_SIZE 10
 #define MIN_ARRAY_SIZE 1
 #define ELEMENT_WIDTH 60
