@@ -43,10 +43,10 @@ int main(void) {
     Rectangle addEndButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 - 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 350, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle addStartButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 350, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle addMiddleButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 350, BUTTON_WIDTH, BUTTON_HEIGHT};
-    Rectangle removeEndButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 - 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 450, BUTTON_WIDTH, BUTTON_HEIGHT};
-    Rectangle removeStartButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 450, BUTTON_WIDTH, BUTTON_HEIGHT};
+    Rectangle removeEndButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 - 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 400, BUTTON_WIDTH, BUTTON_HEIGHT};
+    Rectangle removeStartButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 400, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle maxElementButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) - 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT};
-     Rectangle sortButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 600, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
+    Rectangle sortButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 600, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
     Color buttonColor = LIGHTGRAY;
 
     enum ProgramState state = NORMAL;
