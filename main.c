@@ -2,41 +2,49 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Screen dimensions
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 1000
 
+// Constants for array manipulation
 #define MAX_ARRAY_SIZE 10
 #define MIN_ARRAY_SIZE 1
 #define ELEMENT_WIDTH 60
 #define ELEMENT_HEIGHT 60
 #define ELEMENT_SPACING 30
 
+// Button dimensions
 #define BUTTON_WIDTH 200
 #define BUTTON_HEIGHT 50
 
+// Enumeration for different program states
 enum ProgramState {
     NORMAL,
     ADD_OPTIONS,
     REMOVE_OPTIONS
 };
 
+// Function prototypes
 void shuffleArray(int array[], int size);
 void bubbleSort(int array[], int size);
 
+
+
 int main(void) {
-    // Initialization
+     // Initialization
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raylib Array Example");
 
+    // Initialize array and its size
     int array[MAX_ARRAY_SIZE];
     int arraySize = 5; // Start with 5 elements
-    int maxElementIndex = -1;
+    int maxElementIndex = -1; // Index of the maximum element in the array
 
     // Initialize array elements with random values between 1 and 25
     for (int i = 0; i < arraySize; i++) {
         array[i] = GetRandomValue(1, 25);
     }
 
-    // Adjust the Y-coordinates to center the buttons
+     // Button positions
     Rectangle addButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 - 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle shuffleButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle removeButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
@@ -47,13 +55,16 @@ int main(void) {
     Rectangle removeStartButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 300, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 400, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle maxElementButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) - 20, 20, BUTTON_WIDTH, BUTTON_HEIGHT};
     Rectangle sortButton = {(float)(SCREEN_WIDTH - BUTTON_WIDTH) / 2 + 600, (float)(SCREEN_HEIGHT - BUTTON_HEIGHT) / 2 + 250, BUTTON_WIDTH, BUTTON_HEIGHT};
+    
+    // Initial button color
     Color buttonColor = LIGHTGRAY;
 
+    // Program state
     enum ProgramState state = NORMAL;
 
     // Timer variables
     float colorChangeTimer = 0.0f;
-    const float colorChangeDuration = 2.0f; // Duration for the color change in seconds
+    
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -90,11 +101,10 @@ int main(void) {
                                 maxElementIndex = i;
                             }
                         }
-                        // Display the max element
-                        printf("Max Element: %d\n", maxElement);
-
+                        
                         // Reset the timer
                         colorChangeTimer = 0.0f;
+
                     }else if (CheckCollisionPointRec(mousePos, sortButton)) {
                         // Sort the array using Bubble Sort
                         bubbleSort(array, arraySize);
@@ -158,28 +168,24 @@ int main(void) {
 
         for (int i = 0; i < arraySize; i++) {
        // Draw arrows (lines connecting the top and bottom of rectangles)
-if (i < arraySize - 1) {
-    Vector2 startTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + 10};
-    Vector2 endTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + 10};
-    DrawLineEx(startTop, endTop, 2, RED);
-    DrawTriangle(endTop, (Vector2){endTop.x - 5, endTop.y - 5}, (Vector2){endTop.x - 5, endTop.y + 5}, RED);
+            if (i < arraySize - 1) {
+                Vector2 startTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + 10};
+                Vector2 endTop = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + 10};
+                DrawLineEx(startTop, endTop, 2, RED);
+                DrawTriangle(endTop, (Vector2){endTop.x - 5, endTop.y - 5}, (Vector2){endTop.x - 5, endTop.y + 5}, RED);
 
-    Vector2 startBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + ELEMENT_HEIGHT - 10};
-    Vector2 endBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + ELEMENT_HEIGHT - 10};
-    DrawLineEx(startBottom, endBottom, 2, BLUE);
-    DrawTriangle(startBottom, (Vector2){startBottom.x + 5, startBottom.y + 5}, (Vector2){startBottom.x + 5, startBottom.y - 5}, BLUE);
+                Vector2 startBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING)), arrayPosY + ELEMENT_HEIGHT - 10};
+                Vector2 endBottom = {(float)(arrayPosX + (i + 1) * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING), arrayPosY + ELEMENT_HEIGHT - 10};
+                DrawLineEx(startBottom, endBottom, 2, BLUE);
+                DrawTriangle(startBottom, (Vector2){startBottom.x + 5, startBottom.y + 5}, (Vector2){startBottom.x + 5, startBottom.y - 5}, BLUE);
 }
             // Draw rectangles
             if (i == maxElementIndex) {
-                // Change the color of the rectangle for the max element
-                if (colorChangeTimer < colorChangeDuration) {
-                    DrawRectangle(arrayPosX + i * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, Fade(RED, 0.5f));
-                } else {
-                    DrawRectangle(arrayPosX + i * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, RED);
-                }
-            } else {
+    
+                DrawRectangle(arrayPosX + i * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, RED);
+                    } else {
                 DrawRectangle(arrayPosX + i * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING, arrayPosY, ELEMENT_WIDTH, ELEMENT_HEIGHT, DARKGRAY);
-            }
+        }
 
             DrawText(TextFormat("%d", array[i]), arrayPosX + i * (ELEMENT_WIDTH + ELEMENT_SPACING) + ELEMENT_SPACING + 10, arrayPosY + 10, 20, WHITE);
         }
